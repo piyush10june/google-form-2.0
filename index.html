@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -221,12 +222,14 @@
             transition: all 0.25s ease;
         }
 
-        input::placeholder, textarea::placeholder {
+        input::placeholder,
+        textarea::placeholder {
             color: var(--deep-blue);
             opacity: 0.5;
         }
 
-        input:focus, textarea:focus {
+        input:focus,
+        textarea:focus {
             border-color: var(--goldenrod);
             box-shadow: 0 0 0 4px rgba(218, 165, 32, 0.25);
             background-color: #ffffff;
@@ -341,7 +344,8 @@
             margin-bottom: 3px;
         }
 
-        .footer-item p, .footer-item a {
+        .footer-item p,
+        .footer-item a {
             color: var(--deep-blue);
             font-size: 12px;
             font-weight: 500;
@@ -373,25 +377,35 @@
             opacity: 0.75;
         }
 
+        p{
+            color: #000d1f;
+            text-align:left ;
+            font-size:20px ;
+        }
+
         @media (max-width: 600px) {
             .container {
                 padding: 22px 18px;
             }
+
             .payment-section {
                 flex-direction: column;
             }
+
             .payment-right {
                 justify-content: flex-start;
             }
+
             .corner {
                 width: 50px;
             }
         }
     </style>
 </head>
+
 <body>
 
-    <div class="container"  style="background-color: #aad8fe;">
+    <div class="container" style="background-color: #aad8fe;">
 
         <!-- Fixed Corner Graphic -->
         <img src="images/corner.png" class="corner" alt="Corner Detail">
@@ -418,7 +432,8 @@
         <div class="payment-section">
             <div class="payment-left">
                 <div class="field">
-                    <label style="color: var(--deep-blue); font-size: 20px;"><b>Date of Form Filling</b> <span>*</span></label>
+                    <label style="color: var(--deep-blue); font-size: 20px;"><b>Date of Form Filling</b>
+                        <span>*</span></label>
                     <input type="date" id="submissionDate" name="submissionDate" required>
                 </div>
 
@@ -484,21 +499,33 @@
 
             <div class="field">
                 <label for="earningSource">How do you earn money? / Your exact role in it. <span>*</span></label>
-                <textarea id="earningSource" name="earningSource" required placeholder="Describe your earning stream and primary responsibilities..."></textarea>
+                <textarea id="earningSource" name="earningSource" required
+                    placeholder="Describe your earning stream and primary responsibilities..."></textarea>
             </div>
 
             <div class="field">
                 <label for="problemStatement">Problem Statement <span>*</span></label>
-                <textarea id="problemStatement" name="problemStatement" required placeholder="Detail the specific challenges or questions you wish to resolve..."></textarea>
+                <textarea id="problemStatement" name="problemStatement" required
+                    placeholder="Detail the specific challenges or questions you wish to resolve..."></textarea>
             </div>
 
             <button type="submit" class="submit-btn">Submit Information</button>
             <div id="statusMessage" class="status-msg"></div>
 
+            <p>📢 Bring your Scale Map or Interior Drawing & Visit Us!</p>
+
+            <p> Bring your Scale Map or Interior Drawing along with your WhatsApp Location and meet us at the Royal
+                Bengal Expo.</p>
+
+            <p>📅 Date: 8th & 9th August</p>
+            <p> 📍 Venue: Royal Bengal Expo</p>
+
+            <p>Get expert Astro Vastu & Interior Design consultation for your home, office, or commercial space.</p>
+
         </form>
 
         <!-- Footer Block -->
-        <footer class="blueberry-footer"  style="background-color: #aad8fe;">
+        <footer class="blueberry-footer" style="background-color: #aad8fe;">
 
             <div class="footer-top-line"></div>
 
@@ -582,14 +609,14 @@
         }
 
         // Form Submit & LocalStorage Logic
-        document.getElementById('astrovastuForm').addEventListener('submit', function(e) {
+        document.getElementById('astrovastuForm').addEventListener('submit', function (e) {
             e.preventDefault();
 
             // Collect all phone numbers into an array
             const phoneInputs = document.querySelectorAll('.mobileInput');
             const mobileNumbers = Array.from(phoneInputs)
-                                       .map(input => input.value.trim())
-                                       .filter(val => val !== "");
+                .map(input => input.value.trim())
+                .filter(val => val !== "");
 
             // Construct payload object
             const formData = {
@@ -626,4 +653,5 @@
     </script>
 
 </body>
+
 </html>
