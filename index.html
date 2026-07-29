@@ -408,7 +408,6 @@
     <div class="container" style="background-color: #aad8fe;">
 
         <!-- Fixed Corner Graphic -->
-        <!-- Corner Image -->
         <img src="images/corner.png" alt="Corner Detail"
             style="position: absolute; top: 0; right: 0; width: 110px; max-width: 30vw; height: auto; object-fit: contain; z-index: 10; pointer-events: none;">
         <br>
@@ -417,21 +416,12 @@
         <hr style="color: #FF8C00;">
 
         <!-- Logo -->
-        <div style="display:flex;
-            justify-content:center;
-            align-items:center;
-            width:100%;
-            margin:20px 0 15px;">
-            <img src="images/logo.png" alt="Logo" style="width:450px;
-                max-width:90%;
-                height:auto;
-                object-fit:contain;
-                image-rendering:auto;
-                display:block;">
+        <div style="display:flex; justify-content:center; align-items:center; width:100%; margin:20px 0 15px;">
+            <img src="images/logo.png" alt="Logo"
+                style="width:450px; max-width:90%; height:auto; object-fit:contain; image-rendering:auto; display:block;">
         </div>
 
-        <p>📢 <strong>Free Astro Vastu Consultation</strong> at Royal Bengal Expo, Laurus banquet, howrah!
-        </p>
+        <p>📢 <strong>Free Astro Vastu Consultation</strong> at Royal Bengal Expo, Laurus banquet, howrah!</p>
 
         <div class="header">
             <div>
@@ -457,7 +447,9 @@
         <hr style="color: #FF8C00;">
 
         <!-- Intake Form Body -->
-        <form id="astrovastuForm">
+        <form id="astrovastuForm"
+            action="https://script.google.com/macros/s/AKfycbzdi9gUsKxkxDWJ5ThZr6NmIx0hqM9jXy4I3HLWj4Y7hNSFeWZz6t2z0AA-hutl8tw9/exec"
+            method="POST">
 
             <h3 class="form-section-title">Personal Information</h3>
 
@@ -519,21 +511,15 @@
             <div id="statusMessage" class="status-msg"></div>
 
             <p>📢 <strong>Free</strong> <sub>5-Minute</sub><strong> Astro Vastu Consultation </strong>at Royal Bengal
-                Expo, Laurus
-                banquet, howrah!
-            </p><br>
+                Expo, Laurus banquet, howrah!</p><br>
 
-            <p>
-                Get a <strong>Astro Vastu Consultation</strong> for your home,
-                office, or commercial space.
-            </p> <br>
+            <p>Get a <strong>Astro Vastu Consultation</strong> for your home, office, or commercial space.</p><br>
 
             <h3><strong>Eligibility for Free Consultation:</strong></h3><br>
 
             <p>
-                To avail of the free consultation, you must submit your
-                <strong>Scale Map or Interior Drawing</strong> along with your
-                <strong>WhatsApp Location</strong> <strong>on or before 5th August</strong>.
+                To avail of the free consultation, you must submit your <strong>Scale Map or Interior Drawing</strong>
+                along with your <strong>WhatsApp Location</strong> <strong>on or before 5th August</strong>.
                 Based on the problem you have mentioned above, you will be provided the most suitable Astro Vastu
                 solution.
             </p><br>
@@ -542,13 +528,12 @@
 
             <p>📍 <strong>Venue:</strong> Royal Bengal Expo, Laurus banquet, Howrah</p><br>
 
-            <p>
-                ⚠️ <strong>Please bring the same Scale Map or Interior Drawing during your visit to the Expo for
-                    verification.</strong>
-            </p>
+            <p>⚠️ <strong>Please bring the same Scale Map or Interior Drawing during your visit to the Expo for
+                    verification.</strong></p>
             <br>
 
         </form>
+
         <div class="payment-section">
             <div class="payment-left">
                 <div class="payment-details">
@@ -632,7 +617,7 @@
 
     </div>
 
-    <!-- JavaScript Engine: LocalStorage Handler -->
+    <!-- JavaScript Engine: LocalStorage Handler & Google Sheets Submission -->
     <script>
         // Set Default Date of Filling to Today
         document.getElementById('submissionDate').valueAsDate = new Date();
@@ -648,18 +633,24 @@
             container.appendChild(newGroup);
         }
 
-        // Form Submit & LocalStorage Logic
+        // Form Submit, Google Apps Script & LocalStorage Logic
         document.getElementById('astrovastuForm').addEventListener('submit', function (e) {
             e.preventDefault();
 
-            // Collect all phone numbers into an array
+            const form = this;
+            const submitBtn = form.querySelector('.submit-btn');
+            submitBtn.disabled = true;
+            submitBtn.innerText = "Submitting...";
+
+            // Collect all phone numbers into a single string
             const phoneInputs = document.querySelectorAll('.mobileInput');
             const mobileNumbers = Array.from(phoneInputs)
                 .map(input => input.value.trim())
-                .filter(val => val !== "");
+                .filter(val => val !== "")
+                .join(', ');
 
-            // Construct payload object
-            const formData = {
+            // Construct payload object for LocalStorage
+            const formDataLocal = {
                 id: 'SUB_' + Date.now(),
                 submissionDate: document.getElementById('submissionDate').value,
                 fullName: document.getElementById('fullName').value.trim(),
@@ -674,21 +665,44 @@
                 submittedAt: new Date().toISOString()
             };
 
-            // Retrieve existing submissions array from LocalStorage
+            // 1. Save to LocalStorage
             let existingSubmissions = JSON.parse(localStorage.getItem('astrovastu_submissions')) || [];
-            existingSubmissions.push(formData);
-
-            // Save updated array back into LocalStorage
+            existingSubmissions.push(formDataLocal);
             localStorage.setItem('astrovastu_submissions', JSON.stringify(existingSubmissions));
 
-            // Display success status message
-            const statusDiv = document.getElementById('statusMessage');
-            statusDiv.style.display = 'block';
-            statusDiv.innerHTML = `✓ Form successfully submitted and saved locally! (Total Submissions Saved: ${existingSubmissions.length})`;
+            // 2. Prepare FormData payload for Google Apps Script
+            const postPayload = new FormData();
+            postPayload.append('submissionDate', document.getElementById('submissionDate').value);
+            postPayload.append('fullName', document.getElementById('fullName').value.trim());
+            postPayload.append('dob', document.getElementById('dob').value);
+            postPayload.append('timeOfBirth', document.getElementById('timeOfBirth').value);
+            postPayload.append('placeOfBirth', document.getElementById('placeOfBirth').value.trim());
+            postPayload.append('currentCity', document.getElementById('currentCity').value.trim());
+            postPayload.append('mobileNumber', mobileNumbers);
+            postPayload.append('occupation', document.getElementById('occupation').value.trim());
+            postPayload.append('earningSource', document.getElementById('earningSource').value.trim());
+            postPayload.append('problemStatement', document.getElementById('problemStatement').value.trim());
 
-            // Reset Form Fields
-            this.reset();
-            document.getElementById('submissionDate').valueAsDate = new Date();
+            // 3. Post to Google Apps Script Web App
+            fetch(form.action, {
+                method: 'POST',
+                body: postPayload,
+                mode: 'no-cors' // Allows submitting cross-domain to Google Apps Script
+            }).then(() => {
+                const statusDiv = document.getElementById('statusMessage');
+                statusDiv.style.display = 'block';
+                statusDiv.innerHTML = `✓ Form successfully submitted to Google Sheet and saved locally!`;
+
+                form.reset();
+                document.getElementById('submissionDate').valueAsDate = new Date();
+            }).catch(error => {
+                const statusDiv = document.getElementById('statusMessage');
+                statusDiv.style.display = 'block';
+                statusDiv.innerHTML = `✓ Saved locally!`;
+            }).finally(() => {
+                submitBtn.disabled = false;
+                submitBtn.innerText = "Submit Information";
+            });
         });
     </script>
 
