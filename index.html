@@ -125,35 +125,36 @@
             margin: 30px 0;
         }
 
-        /* Payment Section Card */
-        .payment-section {
+        /* Payment Section Card Refined */
+        .payment-card-refined {
             display: flex;
             flex-wrap: wrap;
             justify-content: space-between;
             align-items: center;
             gap: 20px;
-            background-color: rgba(255, 255, 255, 0.65);
+            background: #ffffff;
             padding: 24px;
             border-radius: 12px;
-            border: 1px solid rgba(218, 165, 32, 0.4);
-            box-shadow: 0 4px 12px rgba(11, 25, 44, 0.05);
+            border: 2px solid var(--goldenrod);
+            box-shadow: 0 6px 18px rgba(11, 25, 44, 0.08);
+            margin-top: 25px;
         }
 
         .payment-left {
-            flex: 1 1 300px;
+            flex: 1 1 280px;
         }
 
         .payment-right {
-            flex: 0 0 130px;
+            flex: 0 0 140px;
             display: flex;
             justify-content: center;
             align-items: center;
         }
 
         .qr {
-            width: 120px;
-            height: 120px;
-            border: 3px solid var(--goldenrod);
+            width: 130px;
+            height: 130px;
+            border: 2px solid var(--goldenrod);
             border-radius: 10px;
             background: #fff;
             padding: 6px;
@@ -161,21 +162,21 @@
         }
 
         .payment-details h3 {
-            margin-bottom: 10px;
+            margin-bottom: 12px;
             font-size: 20px;
-            color: var(--deep-blue);
+            color: var(--orange);
             font-weight: 700;
         }
 
         .payment-details p {
-            margin-bottom: 6px;
+            margin-bottom: 8px;
             font-size: 15px;
             color: var(--deep-blue);
             font-weight: 600;
         }
 
         .payment-details p b {
-            color: var(--orange);
+            color: var(--deep-blue);
         }
 
         /* Form Controls & Layout */
@@ -388,12 +389,12 @@
                 padding: 22px 18px;
             }
 
-            .payment-section {
+            .payment-card-refined {
                 flex-direction: column;
             }
 
             .payment-right {
-                justify-content: flex-start;
+                justify-content: center;
             }
 
             .corner {
@@ -438,14 +439,13 @@
 
         <hr>
 
-        <!-- Payment Info Section -->
-        <div class="payment-section">
-            <div class="payment-left">
-                <div class="field">
-                    <label style="color: var(--deep-blue); font-size: 20px;"><b>Date of Form Filling</b>
-                        <span>*</span></label>
-                    <input type="date" id="submissionDate" name="submissionDate" required>
-                </div>
+        <!-- Date of Form Filling Section -->
+        <div
+            style="background-color: rgba(255, 255, 255, 0.65); padding: 20px; border-radius: 12px; border: 1px solid rgba(218, 165, 32, 0.4);">
+            <div class="field" style="margin-bottom: 0;">
+                <label style="color: var(--deep-blue); font-size: 18px;"><b>Date of Form Filling</b>
+                    <span>*</span></label>
+                <input type="date" id="submissionDate" name="submissionDate" required>
             </div>
         </div>
         <hr style="color: #FF8C00;">
@@ -539,18 +539,16 @@
 
         </form>
 
-        <div class="payment-section">
-            <div class="payment-left">
-                <div class="payment-details">
-                    <h3>Payment Details</h3>
-                    <p><b>Google Pay :</b> 9693701283</p>
-                    <p><b>PhonePe :</b> 9693701283</p>
-                    <p><b>UPI ID :</b> piyush10junepriyanka@okicici</p>
-                    <p><b>Whatsapp Number : </b>9693701283</p>
-                    <div class="payment-right">
-                        <img src="images/qr.png" class="qr" alt="QR Code">
-                    </div>
-                </div>
+        <!-- Redesigned Payment Details Block with QR Code on the Right -->
+        <div class="payment-card-refined">
+            <div class="payment-left payment-details">
+                <h3>Payment Details</h3>
+                <p><b>Google Pay:</b> 9693701283</p>
+                <p><b>PhonePe:</b> 9693701283</p>
+                <p><b>UPI ID:</b> piyush10junepriyanka@okicici</p>
+            </div>
+            <div class="payment-right">
+                <img src="images/qr.png" alt="Payment QR" class="qr" onerror="this.style.display='none'">
             </div>
         </div>
 
