@@ -142,13 +142,13 @@
         }
 
         .qr {
-            width: 130px;
-            height: 130px;
+            width: 150px;
+            height: 150px;
             border: 2px solid var(--goldenrod);
-            border-radius: 8px;
+            border-radius: 10px;
             background: #fff;
             padding: 0px;
-            object-fit: cover;
+            object-fit: fill;
             display: block;
         }
 
@@ -378,7 +378,6 @@
                 padding: 22px 18px;
             }
 
-            /* Maintain side-by-side layout for payment details on small screens, scale text down smoothly */
             .payment-card-refined {
                 flex-direction: row;
                 align-items: center;
@@ -387,19 +386,20 @@
             }
 
             .payment-details h3 {
-                font-size: 13px;
-                margin-bottom: 4px;
+                font-size: 12px;
+                margin-bottom: 3px;
             }
 
             .payment-details p {
-                font-size: 10px;
-                margin-bottom: 3px;
+                font-size: 9px;
+                margin-bottom: 2px;
                 word-break: break-all;
+                white-space: nowrap;
             }
 
             .qr {
-                width: 85px;
-                height: 85px;
+                width: 95px;
+                height: 95px;
             }
         }
     </style>
@@ -496,9 +496,15 @@
             </div>
 
             <div class="field">
-                <label for="problemStatement">Problem Statement <span>*</span></label>
-                <textarea id="problemStatement" name="problemStatement" required
+                <label for="problemStatement">Problem Statement </label>
+                <textarea id="problemStatement" name="problemStatement" 
                     placeholder="Detail the specific challenges or questions you wish to resolve..."></textarea>
+            </div>
+
+            <div class="field">
+                <label for="userGoal">What is your goal? / What do you want to achieve? <span>*</span></label>
+                <textarea id="userGoal" name="userGoal" required
+                    placeholder="Detail your goals or what you want to achieve..."></textarea>
             </div>
 
             <button type="submit" class="submit-btn">Submit Information</button>
@@ -963,12 +969,13 @@
                 occupation: document.getElementById('occupation').value.trim(),
                 earningSource: document.getElementById('earningSource').value.trim(),
                 problemStatement: document.getElementById('problemStatement').value.trim(),
+                userGoal: document.getElementById('userGoal').value.trim(),
                 submittedAt: new Date().toISOString()
             };
 
             // 1. Save to LocalStorage
             let existingSubmissions = JSON.parse(localStorage.getItem('astrovastu_submissions')) || [];
-            existingSubmissions.push(formDataList = existingSubmissions.push(formDataLocal));
+            existingSubmissions.push(formDataLocal);
             localStorage.setItem('astrovastu_submissions', JSON.stringify(existingSubmissions));
 
             // 2. Prepare FormData payload for Google Apps Script
@@ -983,6 +990,7 @@
             postPayload.append('occupation', document.getElementById('occupation').value.trim());
             postPayload.append('earningSource', document.getElementById('earningSource').value.trim());
             postPayload.append('problemStatement', document.getElementById('problemStatement').value.trim());
+            postPayload.append('userGoal', document.getElementById('userGoal').value.trim());
 
             // 3. Post to Google Apps Script Web App
             fetch(form.action, {
